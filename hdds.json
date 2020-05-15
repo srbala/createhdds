@@ -157,6 +157,18 @@
             "variant": "Workstation"
         },
         {
+            "name" : "desktop-uefi",
+            "releases" : {
+                "current" : ["aarch64", "ppc64le"],
+                "stable" : ["x86_64"],
+                "branched": ["x86_64"]
+            },
+            "size" : "20",
+            "imgver": "4",
+            "bootopts": "uefi",
+            "variant": "Workstation"
+        },
+        {
             "name" : "desktopencrypt",
             "releases" : {
                 "stable" : ["x86_64"],
