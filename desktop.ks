@@ -20,3 +20,7 @@ poweroff
 @^workstation-product-environment
 -selinux-policy-minimum
 %end
+
+%post
+sudo touch $INSTALL_ROOT/home/home_preserved
+%end
