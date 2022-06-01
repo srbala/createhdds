@@ -253,13 +253,16 @@ class VirtInstallImage(object):
                 logger.debug("Using kickstart %s", cand)
                 return cand
 
-    def create(self, textinst, retries=3):
+    def create(self, textinst, retries=3, instance=0):
         """Create the image."""
         if self.arch not in supported_arches():
             logger.info("Won't create %s image on %s host. This is normal, don't worry. If you "
                         "intend to have %s workers you will need to run createhdds again on one "
                         "of them to create their base images", self.arch, CPUARCH, self.arch)
             return
+        domain = "createhdds"
+        if instance:
+            domain += str(instance)
 
         # figure out the best os-variant. NOTE: libosinfo >= 0.3.1
         # properly returns 1 on failure, but using workaround for old
@@ -276,7 +279,7 @@ class VirtInstallImage(object):
         # destroy and delete the domain we use for all virt-installs
         conn = libvirt.open()
         try:
-            dom = conn.lookupByName('createhdds')
+            dom = conn.lookupByName(domain)
             try:
                 dom.destroy()
             except libvirt.libvirtError:
@@ -326,7 +329,7 @@ class VirtInstallImage(object):
             args = ["virt-install", "--disk", "size={0},path={1}".format(self.size, tmpfile),
                     "--os-variant", shortid, "-x", xargs, "--initrd-inject",
                     "{0}/{1}".format(SCRIPTDIR, ksfile), "--location",
-                    loctmp.format(fedoradir, str(self.release), variant, arch), "--name", "createhdds",
+                    loctmp.format(fedoradir, str(self.release), variant, arch), "--name", domain,
                     "--memory", memsize, "--noreboot", "--wait", "-1"]
             if logger.getEffectiveLevel() == logging.DEBUG:
                 # let's get virt-install debug logs too
@@ -354,7 +357,7 @@ class VirtInstallImage(object):
                 logger.warning("Image creation timed out!")
                 # clean up the domain again
                 conn = libvirt.open()
-                dom = conn.lookupByName('createhdds')
+                dom = conn.lookupByName(domain)
                 try:
                     dom.destroy()
                 except libvirt.libvirtError:
@@ -380,12 +383,12 @@ class VirtInstallImage(object):
             # at this point the domain should be shut off; if it's
             # anything else, something went wrong: clean up and exit
             conn = libvirt.open()
-            dom = conn.lookupByName('createhdds')
+            dom = conn.lookupByName(domain)
             if dom.state()[0] != libvirt.VIR_DOMAIN_SHUTOFF:
                 conn.close()
                 if os.path.isfile(tmpfile):
                     os.remove(tmpfile)
-                sys.exit("libvirt domain ('createhdds') is not shutdown! "
+                sys.exit(f"libvirt domain ('{domain}') is not shutdown! "
                          "this is an unexpected condition, aborting.")
             # we're all done! rename to the correct name and clean up
             # the domain
@@ -748,7 +751,7 @@ def cli_image(args, *_):
 
     for (num, img) in enumerate(imgs, 1):
         logger.info("Creating image %s...[%s/%s]", img.filename, str(num), str(len(imgs)))
-        img.create(args.textinst)
+        img.create(args.textinst, instance=args.instance)
 
 def parse_args(hdds):
     """Parse arguments with argparse."""
@@ -841,6 +844,7 @@ def parse_args(hdds):
             "arch(es) to build for each release. If this is not set but --release "
             "is set, only x86_64 image(s) will be built.",
             choices=('x86_64', 'i686', 'ppc64le', 'aarch64'))
+        imgparser.add_argument('-i', '--instance', type=int, default=0)
         imgparser.set_defaults(func=cli_image)
         # Here we're stuffing the type of the image and the dict from
         # hdds into args for cli_image() to use.
