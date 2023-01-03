@@ -29,7 +29,6 @@ import sys
 import tempfile
 import time
 
-# import fedfind.helpers
 import guestfs
 import libvirt
 import platform
@@ -503,11 +502,7 @@ def get_virtinstall_images(imggrp, nextrel=None, releases=None):
     for (release, arches) in releases.items():
         branched = release.lower() == 'branched'
         rawhide = release.lower() == 'rawhide'
-        if release != 'rawhide' and int(release) < 0:
-            # negative release indicates 'relative to next release'
-            # -1 is CURRREL, -2 is PREVREL
-            #if not nextrel:
-            #    nextrel = fedfind.helpers.get_current_release() + 1
+        if int(release) > 0:
             rels = [int(release)]
         else:
             # assume a single integer release number
