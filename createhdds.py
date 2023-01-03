@@ -29,7 +29,7 @@ import sys
 import tempfile
 import time
 
-import fedfind.helpers
+# import fedfind.helpers
 import guestfs
 import libvirt
 import platform
@@ -503,28 +503,12 @@ def get_virtinstall_images(imggrp, nextrel=None, releases=None):
     for (release, arches) in releases.items():
         branched = release.lower() == 'branched'
         rawhide = release.lower() == 'rawhide'
-        if branched:
-            # find Branched, if it exists
-            curr = fedfind.helpers.get_current_release(branched=False)
-            branch = fedfind.helpers.get_current_release(branched=True)
-            if branch > curr:
-                rels = [branch]
-            else:
-                logger.info("Branched image requested, but Branched does not currently exist")
-                continue
-        elif rawhide:
-            # find Rawhide release number
-            rawrel = fedfind.helpers.get_current_release(branched=True) + 1
-            rels = [rawrel]
-        elif release.lower() == 'stable':
-            # this means "all current stable releases"
-            rels = fedfind.helpers.get_current_stables()
-        elif release != 'rawhide' and int(release) < 0:
+        if release != 'rawhide' and int(release) < 0:
             # negative release indicates 'relative to next release'
             # -1 is CURRREL, -2 is PREVREL
-            if not nextrel:
-                nextrel = fedfind.helpers.get_current_release() + 1
-            rels = [int(nextrel) + int(release)]
+            #if not nextrel:
+            #    nextrel = fedfind.helpers.get_current_release() + 1
+            rels = [int(release)]
         else:
             # assume a single integer release number
             rels = [release]

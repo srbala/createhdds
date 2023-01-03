@@ -127,9 +127,8 @@
         {
             "name" : "minimal",
             "releases" : {
-                "-1" : ["x86_64", "ppc64le"],
-                "-2" : ["x86_64", "ppc64le"],
-                "stable": ["x86_64", "aarch64"]
+                "8" : ["x86_64", "ppc64le", "aarch64"],
+                "9" : ["x86_64", "ppc64le", "aarch64"]
             },
             "size" : "10",
             "imgver": "3"
@@ -137,9 +136,8 @@
         {
             "name" : "minimal-uefi",
             "releases" : {
-                "-1" : ["x86_64", "aarch64"],
-                "-2" : ["x86_64"],
-                "stable": ["x86_64"]
+                "8" : ["x86_64", "aarch64"],
+                "9" : ["x86_64", "aarch64"]
             },
             "size" : "10",
             "imgver": "3",
@@ -148,8 +146,8 @@
         {
             "name" : "desktop",
             "releases" : {
-                "-1" : ["ppc64le"],
-                "stable" : ["x86_64", "aarch64"]
+                "8" : ["x86_64", "aarch64"],
+                "9" : ["x86_64", "aarch64"]
             },
             "size" : "20",
             "imgver": "4",
@@ -158,7 +156,8 @@
         {
             "name" : "desktopencrypt",
             "releases" : {
-                "stable" : ["x86_64", "aarch64"]
+                "8" : ["x86_64", "aarch64"],
+                "9" : ["x86_64", "aarch64"]
             },
             "size" : "20",
             "variant": "gnome"
@@ -166,7 +165,8 @@
         {
             "name" : "server",
             "releases" : {
-                "stable" : ["x86_64", "ppc64le", "aarch64"]
+                "8" : ["x86_64", "ppc64le", "aarch64"],
+                "9" : ["x86_64", "ppc64le", "aarch64"]
             },
             "size" : "7",
             "imgver": "3",
@@ -175,7 +175,8 @@
         {
             "name" : "kde",
             "releases" : {
-                "stable" : ["x86_64"]
+                "8" : ["x86_64"],
+                "9" : ["x86_64"]
             },
             "size" : "20",
             "imgver": "4"
@@ -183,7 +184,8 @@
         {
             "name" : "support",
             "releases" : {
-                "-1" : ["x86_64", "ppc64le", "aarch64"]
+                "8" : ["x86_64", "ppc64le", "aarch64"],
+                "9" : ["x86_64", "ppc64le", "aarch64"]
             },
             "size" : "11",
             "imgver" : "5"
