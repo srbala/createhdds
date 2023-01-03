@@ -4,6 +4,8 @@ network --bootproto=dhcp
 # repo --name=updates --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=updates-released-f$releasever&arch=$basearch
 url --mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
 repo --name appstream --mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
+repo --name="epel" --baseurl=https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
+
 lang en_US.UTF-8
 keyboard us
 timezone --utc America/New_York
