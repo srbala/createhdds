@@ -1,9 +1,8 @@
 bootloader --location=mbr --append="console=tty0 quiet"
 network --bootproto=dhcp
-# url --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch
-# repo --name=updates --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=updates-released-f$releasever&arch=$basearch
-url --mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
-repo --name appstream --mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
+url --url https://repo.almalinux.org/almalinux/$releasever/BaseOS/$basearch/kickstart/
+repo --name=BaseOS --baseurl=https://repo.almalinux.org/almalinux/$releasever/BaseOS/$basearch/os/
+repo --name=AppStream --baseurl=https://repo.almalinux.org/almalinux/$releasever/AppStream/$basearch/os/
 lang en_US.UTF-8
 keyboard us
 timezone --utc America/New_York
